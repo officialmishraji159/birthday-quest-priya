@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05070d">
+<title>Birthday Quest // Priya</title>
+<style>
+:root{--bg:#05070d;--panel:#0b1020;--line:#1c2a47;--cyan:#62e7ff;--pink:#ff6fcf;--text:#edf6ff;--muted:#91a4bd;--ok:#72f1a8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 10%,#10234a 0,#05070d 35%,#020308 100%);color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(98,231,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(98,231,255,.025) 1px,transparent 1px);background-size:28px 28px}
+.wrap{max-width:920px;margin:auto;padding:22px 16px 50px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}.brand{font-weight:800;letter-spacing:1px}.status{font-size:12px;color:var(--ok)}.terminal{border:1px solid var(--line);background:rgba(11,16,32,.88);border-radius:18px;box-shadow:0 0 45px rgba(98,231,255,.08);overflow:hidden}.bar{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;gap:7px}.dot{width:9px;height:9px;border-radius:50%;background:#33415c}.screen{padding:24px}.tag{color:var(--cyan);font-size:12px}.title{font-size:clamp(30px,7vw,62px);line-height:1.02;margin:10px 0 12px;letter-spacing:-2px}.grad{background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}.sub{color:var(--muted);line-height:1.7}.btn{border:1px solid #2b5a79;background:#0b1a2c;color:var(--text);padding:13px 16px;border-radius:12px;font:inherit;cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-2px);border-color:var(--cyan);box-shadow:0 0 18px rgba(98,231,255,.12)}.btn.primary{background:linear-gradient(90deg,#103449,#281535);border-color:var(--cyan)}.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.progress{height:7px;background:#10182a;border-radius:99px;overflow:hidden;margin:16px 0}.progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:.5s}.q{font-size:18px;line-height:1.6;margin:12px 0}.options{display:grid;gap:10px;margin-top:15px}.opt{padding:14px;border:1px solid var(--line);border-radius:12px;background:#080d19;color:var(--text);text-align:left;font:inherit;cursor:pointer}.opt:hover{border-color:var(--cyan)}.feedback{min-height:25px;margin-top:12px;color:var(--ok)}.hidden{display:none!important}.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}.gallery img{width:100%;height:230px;object-fit:cover;border-radius:14px;border:1px solid var(--line)}.gallery img:first-child{grid-column:span 2;height:300px}.terminal-note{padding:14px;border:1px dashed #36506c;border-radius:12px;color:#b8c7d9;line-height:1.7}.final{border:1px solid #744c73;background:linear-gradient(180deg,rgba(38,18,43,.8),rgba(11,16,32,.9));padding:20px;border-radius:16px;line-height:1.8}.cursor{display:inline-block;width:9px;height:18px;background:var(--cyan);vertical-align:-3px;animation:blink 1s infinite}@keyframes blink{50%{opacity:0}}.heartfield{height:180px;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#060a14}.heart{position:absolute;font-size:28px;cursor:pointer;user-select:none;animation:float 2.7s linear forwards}@keyframes float{from{transform:translateY(190px) scale(.7);opacity:.1}15%{opacity:1}to{transform:translateY(-50px) scale(1.1);opacity:.2}}.score{color:var(--cyan)}footer{color:#5f718b;font-size:11px;text-align:center;margin-top:18px}
+@media(max-width:560px){.screen{padding:18px}.gallery{grid-template-columns:1fr}.gallery img:first-child{grid-column:auto;height:260px}.gallery img{height:220px}.title{letter-spacing:-1px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="brand">PRATIK_OS // BIRTHDAY QUEST</div><div class="status">● SYSTEM ONLINE</div></div>
+  <div class="terminal">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="screen">
+      <section id="home">
+        <div class="tag">BOOT SEQUENCE 06.11 // SPECIAL USER DETECTED</div>
+        <h1 class="title">Happy Birthday,<br><span class="grad">Priya.</span></h1>
+        <p class="sub">A tiny coded adventure made from a few memories, clues and one final message.</p>
+        <div class="terminal-note">> ACCESS LEVEL: <b>SPECIAL</b><br>> MISSION: COMPLETE THE MEMORY QUEST<br>> REWARD: UNLOCKED AT 100%</div>
+        <div class="row"><button class="btn primary" onclick="startQuest()">START QUEST ▶</button></div>
+      </section>
+
+      <section id="game" class="hidden">
+        <div class="tag" id="stageTag">LEVEL 01 / MEMORY</div>
+        <div class="progress"><i id="bar"></i></div>
+        <div id="stage"></div>
+      </section>
+    </div>
+  </div>
+  <footer>Made as a personal birthday surprise • mobile friendly • no login required</footer>
+</div>
+
+<script>
+const photoFiles=["assets/memory1.jpg","assets/memory2.jpg","assets/memory3.jpg","assets/memory4.jpg","assets/priya1.webp","assets/memory5.jpg"];
+let level=0, score=0;
+const stages=[
+ {tag:"LEVEL 01 / ORIGIN",q:"First clue: Pratik ne Priya ki Instagram ID pehli baar kis din dekhi thi?",opts:["Chhath Puja ke din","Diwali ke din","Holi ke din","New Year ke din"],a:0,ok:"Correct. The first memory node is unlocked. ✦"},
+ {tag:"LEVEL 02 / TIMESTAMP",q:"System asks for the relationship start date. Which date is stored in the memory file?",opts:["05 / 01 / 2024","06 / 11 / 2006","14 / 02 / 2024","01 / 01 / 2024"],a:0,ok:"Correct. 05 / 01 / 2024 — memory verified. ✓"},
+ {tag:"LEVEL 03 / LOCATION",q:"First time you both met: which place was near the meeting point?",opts:["Muzaffarpur bus stop","Patna airport","Gorakhpur railway station","Bhopal bus stand"],a:0,ok:"Correct. Muzaffarpur bus stop — location node unlocked. 📍"},
+ {tag:"LEVEL 04 / COFFEE",q:"Bonus memory: where did you have your first coffee together?",opts:["Indian Garden Restaurant","CCD","Domino's","A small café near college"],a:0,ok:"Correct. Indian Garden Restaurant. ☕"},
+ {tag:"LEVEL 05 / STYLE",q:"One small personal preference stored in the file: which outfit does Pratik especially like on Priya?",opts:["Jeans & kurti","Only formal wear","Sportswear","Traditional only"],a:0,ok:"Correct. Jeans & kurti. ✨"}
+];
+
+function startQuest(){document.getElementById("home").classList.add("hidden");document.getElementById("game").classList.remove("hidden");render();}
+function render(){
+ if(level<stages.length){const s=stages[level];document.getElementById("stageTag").textContent=s.tag;document.getElementById("bar").style.width=(level/stages.length*100)+"%";
+ let h=`<div class="q">${s.q}</div><div class="options">`;
+ s.opts.forEach((o,i)=>h+=`<button class="opt" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`);
+ h+=`</div><div id="feedback" class="feedback"></div>`;document.getElementById("stage").innerHTML=h;
+ } else miniGame();
+}
+function answer(i){
+ const s=stages[level], f=document.getElementById("feedback");
+ if(i===s.a){score++;f.textContent=s.ok;setTimeout(()=>{level++;render()},650)}
+ else {f.style.color="#ff8da8";f.textContent="Not quite 😄 Try again — the memory file is waiting.";setTimeout(()=>f.style.color="",500)}
+}
+function miniGame(){
+ document.getElementById("stageTag").textContent="LEVEL 06 / MINI GAME";
+ document.getElementById("bar").style.width="100%";
+ document.getElementById("stage").innerHTML=`<div class="q">Catch <b>8</b> floating stars/hearts to unlock the final message. <span class="score">Score: <span id="sc">0</span>/8</span></div><div class="heartfield" id="field"></div><div class="feedback" id="mg"></div>`;
+ let n=0, timer=setInterval(()=>{
+   if(n>=8){clearInterval(timer);return}
+   const e=document.createElement("div");e.className="heart";e.textContent=Math.random()>.5?"✦":"♥";e.style.left=(5+Math.random()*88)+"%";e.style.animationDuration=(1.8+Math.random()*1.5)+"s";
+   e.onclick=()=>{if(e.dataset.hit)return;e.dataset.hit=1;n++;document.getElementById("sc").textContent=n;e.remove();if(n>=8){clearInterval(timer);document.getElementById("mg").innerHTML='<button class="btn primary" onclick="finale()">UNLOCK FINAL MESSAGE 🔓</button>'}};
+   document.getElementById("field").appendChild(e);setTimeout(()=>e.remove(),3500);
+ },650);
+}
+function finale(){
+ document.getElementById("stageTag").textContent="FINAL / MESSAGE UNLOCKED";
+ document.getElementById("bar").style.width="100%";
+ document.getElementById("stage").innerHTML=`<div class="tag">ACCESS GRANTED • 100%</div>
+ <h2 style="font-size:30px;margin:10px 0">🎂 HAPPY BIRTHDAY, PRIYA ❤️</h2>
+ <div class="gallery">${photoFiles.map(x=>`<img src="${x}" loading="lazy">`).join("")}</div>
+ <div class="final" id="letter"></div>
+ <div class="row"><button class="btn" onclick="location.reload()">↻ PLAY AGAIN</button></div>`;
+ const text=`Priya, tum mere liye sirf ek person nahi ho. Tum meri life ka woh special part ho jiske hone se ordinary days bhi special lagte hain. Tumhari smile, tumhari baatein aur tumhara saath mere liye bahut matter karta hai. ❤️
+
+Aaj tumhara birthday hai, lekin honestly, mere liye special tumhara birthday nahi, balki tumhara meri life mein hona hai. ❤️
+
+Main bas itna chahta hoon ki tum hamesha khush raho, apne dreams ko achieve karo aur life mein jitna deserve karti ho usse bhi zyada pao.
+
+Happy Birthday, Priya. 🎂❤️`;
+ let i=0,box=document.getElementById("letter");function type(){if(i<text.length){box.innerHTML=text.slice(0,i+1).replace(/\n/g,"<br>")+"<span class='cursor'></span>";i++;setTimeout(type,18)}else box.innerHTML=text.replace(/\n/g,"<br>")}type();
+}
+</script>
+</body>
+</html>
